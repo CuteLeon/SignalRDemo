@@ -1,0 +1,8 @@
+﻿教程地址：https://docs.microsoft.com/zh-cn/aspnet/core/tutorials/signalr?view=aspnetcore-2.1&tabs=visual-studio
+
+首先安装 Microsoft.AspNetCore.SignalR Nuget 包；
+安装 Node.js 和 NPM 工具：https://nodejs.org/en/ ；
+使用 CMD.EXE 执行命令：
+	npm init -y
+	npm install @aspnet/signalr
+npm下载完成后，复制文件 C:\Users\{用户名}\node_modules\@aspnet\signalr\dist\browser\signalr.js 至 {项目目录}\wwwroot\js\signalr 目录；
