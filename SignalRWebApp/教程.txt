@@ -9,8 +9,8 @@ npm下载完成后，复制文件 C:\Users\{用户名}\node_modules\@aspnet\sign
 
 创建 ChatHub 继承自 Microsoft.AspNetCore.SignalR.Hub ，用于管理连接管道和消息收发，允许服务端和客户端互相调用；
 
-Startup.cs => 
-//配置服务方法
+配置 SignalR 服务器，才可以将请求传递到 SignalR
+Startup.cs =>
 public void ConfigureServices(IServiceCollection services) =>
 	//TODO: 允许跨域
     services.AddCors(options => options.AddPolicy("CorsPolicy",
@@ -22,3 +22,41 @@ public void ConfigureServices(IServiceCollection services) =>
     }));
     //TODO: 增加SignalR服务
     services.AddSignalR();
+
+在 Configure 方法中使用 UseSignalR 将路由配置到中心，将 SignalR 添加到中间件管道。
+Startup.cs =>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    //TODO: 跨域中间件
+    app.UseCors("CorsPolicy");
+    //TODO: SignalR 路由
+    app.UseSignalR(routes =>
+    {
+        routes.MapHub<ChatHub>("/chatHub");
+    });
+
+客户端：
+chat.js =>
+	//TODO: 创建 SignalR 连接
+	const connection = new signalR.HubConnectionBuilder()
+		.withUrl("/chatHub")
+		.build();
+
+	//TODO: 接收到消息
+	connection.on("ReceiveMessage", (user, message) => {
+		const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		const encodedMsg = user + " says " + msg;
+		const li = document.createElement("li");
+		li.textContent = encodedMsg;
+		document.getElementById("messagesList").appendChild(li);
+	});
+
+	//TODO: 错误处理
+	connection.start().catch(err => console.error(err.toString()));
+
+	//TODO: 发送消息
+	document.getElementById("sendButton").addEventListener("click", event => {
+		const user = document.getElementById("userInput").value;
+		const message = document.getElementById("messageInput").value;
+		connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+		event.preventDefault();
+	});

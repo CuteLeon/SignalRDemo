@@ -65,8 +65,9 @@ namespace SignalRWebApp
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            //TODO:
+            //TODO: 跨域中间件
             app.UseCors("CorsPolicy");
+            //TODO: SignalR 路由
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chatHub");
