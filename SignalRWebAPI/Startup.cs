@@ -26,6 +26,16 @@ namespace SignalRWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSignalR();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SignalrCore",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod());
+            });
+            services.AddSingleton<IServiceProvider, ServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +49,14 @@ namespace SignalRWebAPI
             {
                 app.UseHsts();
             }
+
+            //跨域支持
+            app.UseCors("SignalrCore");
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<SignalrHubs>("signalrHubs");
+            });
+            app.UseWebSockets();
 
             app.UseHttpsRedirection();
             app.UseMvc();
