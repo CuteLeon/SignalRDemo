@@ -5,4 +5,4 @@
 使用 CMD.EXE 执行命令：
 	npm init -y
 	npm install @aspnet/signalr
-npm下载完成后，复制文件 C:\Users\{用户名}\node_modules\@aspnet\signalr\dist\browser\signalr.js 至 {项目目录}\wwwroot\js\signalr 目录；
+npm下载完成后，复制文件 C:\Users\{用户名}\node_modules\@aspnet\signalr\dist\browser\signalr.js 至 {项目目录}\lib\signalr\ 目录并引用到 HTML；
