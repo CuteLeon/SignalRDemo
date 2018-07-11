@@ -27,7 +27,7 @@ namespace SignalRWebAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSignalR();
+            //TODO: 允许跨域
             services.AddCors(options =>
             {
                 options.AddPolicy("SignalrCore",
@@ -35,6 +35,9 @@ namespace SignalRWebAPI
                                     .AllowAnyHeader()
                                     .AllowAnyMethod());
             });
+            //增加 SignalR
+            services.AddSignalR();
+
             services.AddSingleton<IServiceProvider, ServiceProvider>();
         }
 
@@ -50,7 +53,7 @@ namespace SignalRWebAPI
                 app.UseHsts();
             }
 
-            //跨域支持
+            //TODO: 允许跨域
             app.UseCors("SignalrCore");
             app.UseSignalR(routes =>
             {
