@@ -35,7 +35,7 @@ namespace SignalRWebApp
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            //TODO:
+            //TODO: 允许跨域
             services.AddCors(options => options.AddPolicy("CorsPolicy",
             builder =>
             {
@@ -44,6 +44,7 @@ namespace SignalRWebApp
                        .AllowCredentials();
             }));
 
+            //TODO: 增加SignalR服务
             services.AddSignalR();
         }
 

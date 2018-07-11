@@ -6,3 +6,19 @@
 	npm init -y
 	npm install @aspnet/signalr
 npm下载完成后，复制文件 C:\Users\{用户名}\node_modules\@aspnet\signalr\dist\browser\signalr.js 至 {项目目录}\lib\signalr\ 目录并引用到 HTML；
+
+创建 ChatHub 继承自 Microsoft.AspNetCore.SignalR.Hub ，用于管理连接管道和消息收发，允许服务端和客户端互相调用；
+
+Startup.cs => 
+//配置服务方法
+public void ConfigureServices(IServiceCollection services) =>
+	//TODO: 允许跨域
+    services.AddCors(options => options.AddPolicy("CorsPolicy",
+    builder =>
+    {
+        builder.AllowAnyMethod().AllowAnyHeader()
+                .WithOrigins("http://localhost:55830")
+                .AllowCredentials();
+    }));
+    //TODO: 增加SignalR服务
+    services.AddSignalR();
